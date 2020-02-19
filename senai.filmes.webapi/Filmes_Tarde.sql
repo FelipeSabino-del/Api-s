@@ -21,3 +21,5 @@ VALUES ('A vida é bela',1),('Rambo',2)
 
 SELECT * FROM Genero;
 SELECT * FROM Filmes;
+
+SELECT IdFilme, Titulo, Genero.Nome FROM Filmes INNER JOIN Genero ON Genero.IdGenero = Filmes.IdGenero WHERE IdFilme = 1;
