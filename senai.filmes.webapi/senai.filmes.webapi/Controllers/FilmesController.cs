@@ -29,30 +29,71 @@ namespace senai.filmes.webapi.Controllers
         }
 
         [HttpGet("{IdUnico}")]
-        public IEnumerable<FilmeDomain> GetUnico(int IdUnico)
+        public IActionResult GetUnico(int IdUnico)
         {
-            return _filmeRepository.ListarUnico(IdUnico);
+            FilmeDomain filmeBuscado = _filmeRepository.ListarUnico(IdUnico);
+
+            if (filmeBuscado != null)
+            {
+                return Ok(filmeBuscado);
+            }
+
+            return NotFound("Nenhum filme encontrado para o identificador informado");
+        }
+
+        [HttpGet("{Busca}")]
+        public IEnumerable<FilmeDomain> GetPesquisa(string Busca)
+        {
+            return _filmeRepository.ListarPesquisa(Busca);
         }
 
         [HttpPost]
         public IActionResult Post(FilmeDomain filmeRecebido)
         {
             _filmeRepository.Adicionar(filmeRecebido);
-            return StatusCode(201);
+            return Created("http://localhost:5000/api/Filmes", filmeRecebido);
         }
 
         [HttpPut("{IdAtualizar}")]
-        public IActionResult Put(int IdAtualizar, FilmeDomain filmeAtualizar)
+        public IActionResult Put(FilmeDomain filmeAtualizar, int IdAtualizar)
         {
-            _filmeRepository.Atualizar(IdAtualizar, filmeAtualizar);
-            return StatusCode(200);
+            FilmeDomain filmeBuscado = _filmeRepository.ListarUnico(IdAtualizar);
+
+            if (filmeBuscado != null)
+            {
+                try
+                {
+                    _filmeRepository.Atualizar(filmeAtualizar, IdAtualizar);
+                    return NoContent();
+                }
+                catch (Exception erro)
+                {
+
+                    return BadRequest(erro);
+                }
+            }
+
+            return NotFound
+                (
+                    new
+                    {
+                        mensagem = "Filme não encontrado",
+                        erro = true
+                    }
+                );
         }
 
         [HttpDelete("{IdDelete}")]
         public IActionResult Delete(int IdDelete)
         {
-            _filmeRepository.Deletar(IdDelete);
-            return StatusCode(200);
+            FilmeDomain filmeBuscado = _filmeRepository.ListarUnico(IdDelete);
+
+            if (filmeBuscado != null)
+            {
+                _filmeRepository.Deletar(IdDelete);
+                return Ok($"O filme {IdDelete} foi deletado com sucesso!");
+            }
+            return NotFound("Nenhum filme encontrado para o identificador informado");
         }
     }
 }

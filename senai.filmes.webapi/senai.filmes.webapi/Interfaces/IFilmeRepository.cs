@@ -10,11 +10,13 @@ namespace senai.filmes.webapi.Interfaces
     {
         List<FilmeDomain> Listar();
 
-        List<FilmeDomain> ListarUnico(int IdUnico);
+        FilmeDomain ListarUnico(int IdUnico);
+
+        List<FilmeDomain> ListarPesquisa(string Busca);
 
         void Adicionar(FilmeDomain filmeRecebido);
 
-        void Atualizar(int IdAtualizar, FilmeDomain filmeAtualizar);
+        void Atualizar(FilmeDomain filmeAtualizar, int IdAtualizar);
 
         void Deletar(int IdDelete);
     }

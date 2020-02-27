@@ -23,3 +23,9 @@ SELECT * FROM Genero;
 SELECT * FROM Filmes;
 
 SELECT IdFilme, Titulo, Genero.Nome FROM Filmes INNER JOIN Genero ON Genero.IdGenero = Filmes.IdGenero WHERE IdFilme = 1;
+
+SELECT IdFilme, Titulo, Genero.Nome FROM Filmes INNER JOIN Genero ON Genero.IdGenero = Filmes.IdGenero WHERE Titulo LIKE '%a%' ORDER BY Titulo DESC;
+
+
+
+
