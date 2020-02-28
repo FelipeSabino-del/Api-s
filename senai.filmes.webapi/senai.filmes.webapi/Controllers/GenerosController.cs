@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai.filmes.webapi.Domains;
@@ -32,7 +33,7 @@ namespace senai.filmes.webapi.Controllers
         {
             return _generoRepository.Listar();
         }
-
+        [Authorize(Roles = "administrador")]
         [HttpPost]
         public IActionResult Post(GeneroDomain generoRecebido)
         {
@@ -40,6 +41,7 @@ namespace senai.filmes.webapi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "administrador")]
         [HttpPut("{IdAtualizar}")]
         public IActionResult Put(int IdAtualizar, GeneroDomain generoAtualizar)
         {
@@ -47,6 +49,7 @@ namespace senai.filmes.webapi.Controllers
             return StatusCode(200);
         }
 
+        [Authorize(Roles = "administrador")]
         [HttpDelete("{IdDelete}")]
         public IActionResult Delete(int IdDelete)
         {

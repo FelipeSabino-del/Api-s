@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai.filmes.webapi.Domains;
@@ -47,6 +48,7 @@ namespace senai.filmes.webapi.Controllers
             return _filmeRepository.ListarPesquisa(Busca);
         }
 
+        [Authorize(Roles = "administrador")]
         [HttpPost]
         public IActionResult Post(FilmeDomain filmeRecebido)
         {
@@ -54,6 +56,7 @@ namespace senai.filmes.webapi.Controllers
             return Created("http://localhost:5000/api/Filmes", filmeRecebido);
         }
 
+        [Authorize(Roles = "administrador")]
         [HttpPut("{IdAtualizar}")]
         public IActionResult Put(FilmeDomain filmeAtualizar, int IdAtualizar)
         {
@@ -83,6 +86,7 @@ namespace senai.filmes.webapi.Controllers
                 );
         }
 
+        [Authorize(Roles = "administrador")]
         [HttpDelete("{IdDelete}")]
         public IActionResult Delete(int IdDelete)
         {
